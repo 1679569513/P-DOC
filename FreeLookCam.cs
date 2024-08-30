@@ -12,17 +12,22 @@ namespace UnityStandardAssets.Cameras
         // 	Camera Rig
         // 		Pivot
         // 			Camera
-
+        //以多快的速度移动以跟上目标的位置。
         [SerializeField] private float m_MoveSpeed = 1f;                      // How fast the rig will move to keep up with the target's position.
+	//旋转速度有多快
         [Range(0f, 10f)] [SerializeField] private float m_TurnSpeed = 1.5f;   // How fast the rig will rotate from user input.
+	//应用多少平滑处理，以减少鼠标转弯抖动
         [SerializeField] private float m_TurnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
         [SerializeField] private float m_TiltMax = 75f;                       // The maximum value of the x axis rotation of the pivot.
         [SerializeField] private float m_TiltMin = 45f;                       // The minimum value of the x axis rotation of the pivot.
+	//光标是否应隐藏和锁定
         [SerializeField] private bool m_LockCursor = false;                   // Whether the cursor should be hidden and locked.
+	//设置垂直轴是否应自动返回
         [SerializeField] private bool m_VerticalAutoReturn = false;           // set wether or not the vertical axis should auto return
 
         private float m_LookAngle;                    // The rig's y axis rotation.
         private float m_TiltAngle;                    // The pivot's x axis rotation.
+	//角色的视觉目标在枢轴前方多远。
         private const float k_LookDistance = 100f;    // How far in front of the pivot the character's look target is.
 		private Vector3 m_PivotEulers;
 		private Quaternion m_PivotTargetRot;
@@ -31,6 +36,7 @@ namespace UnityStandardAssets.Cameras
         protected override void Awake()
         {
             base.Awake();
+	    //锁定或解锁光标。
             // Lock or unlock the cursor.
             Cursor.lockState = m_LockCursor ? CursorLockMode.Locked : CursorLockMode.None;
             Cursor.visible = !m_LockCursor;
