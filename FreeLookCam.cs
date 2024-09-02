@@ -68,6 +68,7 @@ namespace UnityStandardAssets.Cameras
         protected override void FollowTarget(float deltaTime)
         {
             if (m_Target == null) return;
+	    // 返回的值等于 a + (b - a) * t 
             // Move the rig towards target position.
             transform.position = Vector3.Lerp(transform.position, m_Target.position, deltaTime*m_MoveSpeed);
         }
@@ -99,15 +100,17 @@ namespace UnityStandardAssets.Cameras
             {
                 // on platforms with a mouse, we adjust the current angle based on Y mouse input and turn speed
                 m_TiltAngle -= y*m_TurnSpeed;
+		// float 最小值到最大值之间的浮点值结果。
                 // and make sure the new value is within the tilt range
                 m_TiltAngle = Mathf.Clamp(m_TiltAngle, -m_TiltMin, m_TiltMax);
             }
 
             // Tilt input around X is applied to the pivot (the child of this object)
 			m_PivotTargetRot = Quaternion.Euler(m_TiltAngle, m_PivotEulers.y , m_PivotEulers.z);
-
+                          //转动平滑  
 			if (m_TurnSmoothing > 0)
 			{
+   //在四元数 a 与 b 之间按比率 t 进行球形插值。参数 t 限制在范围 [0, 1] 内。
 				m_Pivot.localRotation = Quaternion.Slerp(m_Pivot.localRotation, m_PivotTargetRot, m_TurnSmoothing * Time.deltaTime);
 				transform.localRotation = Quaternion.Slerp(transform.localRotation, m_TransformTargetRot, m_TurnSmoothing * Time.deltaTime);
 			}
